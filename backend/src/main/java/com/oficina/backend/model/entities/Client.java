@@ -1,11 +1,19 @@
 package com.oficina.backend.model.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.validator.constraints.Length;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -27,4 +35,12 @@ public class Client {
   private String phone;
   private String address;
   private String zipCode;
+
+  @ManyToOne
+  @JoinColumn(name = "city_id")
+  private City city;
+
+  @JsonIgnore
+  @OneToMany(mappedBy = "client")
+  private List<Vehicle> listVehicle = new ArrayList<>();
 }
