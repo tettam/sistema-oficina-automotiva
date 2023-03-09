@@ -1,12 +1,15 @@
 package com.oficina.backend.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.oficina.backend.model.entities.BrandCar;
 import com.oficina.backend.repository.BrandCarRepository;
+import com.oficina.backend.service.exeptions.DatabaseException;
+import com.oficina.backend.service.exeptions.ResourceNotFoundException;
 
 @Service
 public class BrandCarService {
@@ -18,6 +21,11 @@ public class BrandCarService {
     return repository.findAll();
   }
 
+  public BrandCar findById(Long id){
+    Optional<BrandCar>  obj = repository.findById(id);
+    return obj.orElseThrow(() -> new ResourceNotFoundException(id));
+  }
+
   public BrandCar insert(BrandCar obj){
     return repository.saveAndFlush(obj);
   }
@@ -27,7 +35,12 @@ public class BrandCarService {
   }
 
   public void delete(Long id){
-    repository.deleteById(id);
+    try {
+      repository.deleteById(id);
+    } catch (Exception e) {
+      throw new DatabaseException(e.getMessage());
+    }
+    
   }
 
 }
