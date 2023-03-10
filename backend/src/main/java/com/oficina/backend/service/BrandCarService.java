@@ -11,6 +11,8 @@ import com.oficina.backend.repository.BrandCarRepository;
 import com.oficina.backend.service.exeptions.DatabaseException;
 import com.oficina.backend.service.exeptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class BrandCarService {
   
@@ -30,8 +32,15 @@ public class BrandCarService {
     return repository.saveAndFlush(obj);
   }
 
-  public BrandCar update(BrandCar obj){
-    return repository.saveAndFlush(obj);
+  public BrandCar update(Long id, BrandCar obj){
+    try {
+      BrandCar entity = repository.getReferenceById(id);
+      updateBrandCar(entity, obj);
+      return repository.saveAndFlush(entity);
+
+    } catch (EntityNotFoundException e) {
+      throw new ResourceNotFoundException(id);
+    }
   }
 
   public void delete(Long id){
@@ -40,9 +49,11 @@ public class BrandCarService {
     } catch (Exception e) {
       throw new DatabaseException(e.getMessage());
     }
-    
   }
 
+  public void updateBrandCar(BrandCar entity, BrandCar obj){
+    entity.setName(obj.getName());
+  }
 }
 
 
