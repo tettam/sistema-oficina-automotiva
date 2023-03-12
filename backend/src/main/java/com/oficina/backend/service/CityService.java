@@ -32,14 +32,11 @@ public class CityService {
     return repository.saveAndFlush(obj);
   }
 
-  public City update(Long id, City obj){
+  public City update(City obj){
     try {
-      City entity = repository.getReferenceById(id);
-      updateCity(entity, obj);
-      return repository.saveAndFlush(entity);
-
+      return repository.saveAndFlush(obj);
     } catch (EntityNotFoundException e) {
-      throw new ResourceNotFoundException(id);
+      throw new ResourceNotFoundException(obj.getId());
     }
   }
 
@@ -49,9 +46,5 @@ public class CityService {
     } catch (Exception e) {
       throw new DatabaseException(e.getMessage());
     }
-  }
-
-  public void updateCity(City entity, City obj){
-    entity.setName(obj.getName());
   }
 }

@@ -45,10 +45,10 @@ public class BrandCarController {
     return ResponseEntity.created(null).body(object);
   }
 
-  @PutMapping(value = "/{id}")
-  public ResponseEntity<BrandCar> update(@PathVariable Long id,@RequestBody BrandCar obj){
-    BrandCar object = service.update(id, obj);
-    return ResponseEntity.ok().body(object);
+  @PutMapping
+  public ResponseEntity<BrandCar> update(@RequestBody BrandCar obj){
+    service.update(obj);
+    return ResponseEntity.ok().body(obj);
   }
 
   @DeleteMapping(value = "/{id}")

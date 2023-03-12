@@ -13,48 +13,47 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.oficina.backend.model.entities.City;
-import com.oficina.backend.service.CityService;
+import com.oficina.backend.model.entities.Client;
+import com.oficina.backend.service.ClientService;
 
 import jakarta.validation.Valid;
 
 
 
 @RestController
-@RequestMapping(value = "/cities")
-public class CityController {
+@RequestMapping(value = "/clients")
+public class ClientController {
   
   @Autowired
-  private CityService service;
+  private ClientService service;
 
   @GetMapping
-  public ResponseEntity<List<City>> findAll(){
-    List<City> list = service.findAll();
+  public ResponseEntity<List<Client>> findAll(){
+    List<Client> list = service.findAll();
     return ResponseEntity.ok().body(list);
   }
 
   @GetMapping(value = "/{id}")
-  public ResponseEntity<City> findById(@PathVariable Long id){
-    City obj = service.findById(id);
+  public ResponseEntity<Client> findById(@PathVariable Long id){
+    Client obj = service.findById(id);
     return ResponseEntity.ok().body(obj);
   }
 
   @PostMapping
-  public ResponseEntity<City> add(@RequestBody @Valid City obj){
-    City object = service.insert(obj);
+  public ResponseEntity<Client> add(@RequestBody @Valid Client obj){
+    Client object = service.insert(obj);
     return ResponseEntity.created(null).body(object);
   }
 
   @PutMapping
-  public ResponseEntity<City> update(@RequestBody City obj){
-    service.update(obj);
-    return ResponseEntity.ok().body(obj);
+  public ResponseEntity<Client> update(@RequestBody Client obj){
+    Client object = service.update(obj);
+    return ResponseEntity.ok().body(object);
   }
 
   @DeleteMapping(value = "/{id}")
   public ResponseEntity<Void> delete(@PathVariable Long id){
     service.delete(id);
-
     return ResponseEntity.noContent().build();
   }
 }

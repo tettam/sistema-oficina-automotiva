@@ -6,33 +6,33 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.oficina.backend.model.entities.BrandCar;
-import com.oficina.backend.repository.BrandCarRepository;
+import com.oficina.backend.model.entities.Client;
+import com.oficina.backend.repository.ClientRepository;
 import com.oficina.backend.service.exeptions.DatabaseException;
 import com.oficina.backend.service.exeptions.ResourceNotFoundException;
 
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
-public class BrandCarService {
+public class ClientService {
   
   @Autowired
-  private BrandCarRepository repository;
+  private ClientRepository repository;
 
-  public List<BrandCar> findAll(){
+  public List<Client> findAll(){
     return repository.findAll();
   }
 
-  public BrandCar findById(Long id){
-    Optional<BrandCar>  obj = repository.findById(id);
+  public Client findById(Long id){
+    Optional<Client>  obj = repository.findById(id);
     return obj.orElseThrow(() -> new ResourceNotFoundException(id));
   }
 
-  public BrandCar insert(BrandCar obj){
+  public Client insert(Client obj){
     return repository.saveAndFlush(obj);
   }
 
-  public BrandCar update(BrandCar obj){
+  public Client update(Client obj){
     try {
       return repository.saveAndFlush(obj);
     } catch (EntityNotFoundException e) {
